@@ -8,12 +8,22 @@ const doWork = (duration: number) => {
   while (Date.now() < start + duration) {}
 }
 
-cluster.isPrimary ? cluster.fork() : main();
+const runForks = (numberOfForks: number) => {
+  for (let i = 0; i < numberOfForks; i++) cluster.fork();
+};
+
+cluster.isPrimary
+  ? runForks(4)
+  : main();
 
 function main() {
   app.get("/", (req, res) => {
     doWork(10000);
     res.send("Ok");
+  });
+
+  app.get("/fast", (req, res) => {
+    res.send("Fast");
   });
 
   app.listen(3000, () => console.log("Server is running on port 3000"));
