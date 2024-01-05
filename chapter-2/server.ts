@@ -1,5 +1,8 @@
+process.env.UV_THREADPOOL_SIZE = "1";
+
 import cluster from "cluster";
 import express from "express";
+import crypto from "crypto";
 
 const app = express();
 
@@ -13,13 +16,15 @@ const runForks = (numberOfForks: number) => {
 };
 
 cluster.isPrimary
-  ? runForks(4)
+  ? runForks(8)
   : main();
 
 function main() {
   app.get("/", (req, res) => {
-    doWork(10000);
-    res.send("Ok");
+    crypto.pbkdf2('a', 'b', 100000, 512, 'sha512', (err, derivedKey) => {
+      if (err) throw err;
+      res.send("Ok");
+    });
   });
 
   app.get("/fast", (req, res) => {
