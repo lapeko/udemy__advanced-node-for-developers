@@ -1,0 +1,14 @@
+{
+  "name": "chapter-2",
+  "version": "1.0.0",
+  "description": "",
+  "main": "start.js",
+  "scripts": {
+    "pm2:start": "pm2 start start.js -i 0",
+    "pm2:stop": "pm2 stop start",
+    "pm2:delete": "pm2 delete start"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
