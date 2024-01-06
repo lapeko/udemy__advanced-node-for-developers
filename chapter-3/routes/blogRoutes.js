@@ -1,11 +1,12 @@
 const { Router } = require("express");
 
 const requireLogin = require('../middlewares/requireLogin');
+const cache = require("../middlewares/cache");
 const Blog = require("../models/Blog");
 
 const blogRouter = Router();
 
-blogRouter.use(requireLogin);
+blogRouter.use(requireLogin, cache);
 
 blogRouter.route("/")
   .get(async (req, res) => {
@@ -30,7 +31,7 @@ blogRouter.route("/")
     }
   });
 
-blogRouter.route("/:id")
+blogRouter.route("/:id", cache)
   .get(async (req, res) => {
     const blog = await Blog.findOne({
       _user: req.user.id,
