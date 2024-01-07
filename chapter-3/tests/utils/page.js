@@ -17,11 +17,16 @@ class Page {
       const {session, sig} = sessionFactory(user);
       await this.setCookie({name: "session", value: session});
       await this.setCookie({name: "session.sig", value: sig});
-      await this.goto("http://localhost:3000");
+      await this.goto("http://localhost:3000/blogs");
+      await this.waitForSelector('a[href="/auth/logout"]');
     };
 
     pageProto.close = async function () {
       await Page.browser.close();
+    }
+
+    pageProto.getContentBySelector = async function (selector) {
+      return this.$eval(selector, el => el.innerHTML);
     }
 
     return page;
