@@ -1,28 +1,14 @@
-const puppeteer = require("puppeteer");
-const {setupMongoose, destroyMongoose} = require("./utils/setup-mongoose");
-const {getNewTestUser, destroyAllTestUsers} = require("./factories/user.factory");
-const sessionFactory = require("./factories/session.factory");
 
-let browser, page;
+const Page = require("./utils/page");
 
-beforeAll(async () => {
-  await setupMongoose();
-});
+let page;
 
 beforeEach(async () => {
-  browser = await puppeteer.launch(/*{headless: false}*/);
-  page = (await browser.pages())[0];
-  if (!page) page = await browser.newPage();
-  await page.goto('http://localhost:3000');
+  page = await Page.build({headless: "new"});
 });
 
 afterEach(async () => {
-  await browser.close();
-});
-
-afterAll(async () => {
-  await destroyMongoose();
-  await destroyAllTestUsers();
+  await page.close();
 });
 
 it("should have expected header", async () => {
@@ -42,14 +28,7 @@ it("should visit auth page", async () => {
 });
 
 it("Logout should be shown when logged in", async () => {
-  const user = await getNewTestUser()
-  const {session, sig} = sessionFactory(user);
-
-  await page.setCookie({name: "session", value: session});
-  await page.setCookie({name: "session.sig", value: sig});
-
-  await page.goto("http://localhost:3000/blogs");
-
+  await page.login();
   await page.waitForSelector('a[href="/auth/logout"]');
   const logoutContent = await page.$eval('a[href="/auth/logout"]', el => el.innerText);
 
