@@ -1,18 +1,23 @@
 const puppeteer = require("puppeteer");
 
-it("Check sum of 2 and 2", () => {
-  expect(2 + 2).toBe(4);
-});
+describe("Header", () => {
+  let browser, page;
 
-it("run a browser", async () => {
-  const browser = await puppeteer.launch(/*{headless: false}*/);
-  let page = (await browser.pages())[0];
-  if (!page) page = await browser.newPage();
-  await page.goto('http://localhost:3000');
+  beforeEach(async () => {
+    browser = await puppeteer.launch(/*{headless: false}*/);
+    page = (await browser.pages())[0];
+    if (!page) page = await browser.newPage();
+    await page.goto('http://localhost:3000');
+  });
 
-  const text = await page.evaluate(() => document.querySelector("a.brand-logo").innerText);
+  afterEach(async () => {
+    await browser.close();
+  });
 
-  expect(text).toEqual("Blogster");
+  it("run a browser", async () => {
+    console.log({browser, page});
+    const text = await page.evaluate(() => document.querySelector("a.brand-logo").innerText);
 
-  await browser.close();
+    expect(text).toEqual("Blogster");
+  });
 });
