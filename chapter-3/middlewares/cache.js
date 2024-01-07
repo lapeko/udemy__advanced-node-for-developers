@@ -20,7 +20,6 @@ const cache = async (req, res, next) => {
   }
 
   const cached = JSON.parse(await redisClient.get(key));
-  console.log(cached);
 
   if (cached) {
     res.type(cached.contentType);
