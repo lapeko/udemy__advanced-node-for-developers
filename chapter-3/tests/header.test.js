@@ -5,18 +5,18 @@ const cookieKey = require("../config/keys").cookieKey;
 let browser, page;
 
 beforeEach(async () => {
-  browser = await puppeteer.launch({headless: false});
+  browser = await puppeteer.launch(/*{headless: false}*/);
   page = (await browser.pages())[0];
   if (!page) page = await browser.newPage();
   await page.goto('http://localhost:3000');
 });
 
 afterEach(async () => {
-  // await browser.close();
+  await browser.close();
 });
 
 it("should have expected header", async () => {
-  const text = await page.evaluate(() => document.querySelector("a.brand-logo").innerText);
+  const text = await page.$eval("a.brand-logo", el => el.innerText);
 
   expect(text).toEqual("Blogster");
 });
@@ -31,7 +31,7 @@ it("should visit auth page", async () => {
   expect(url).toMatch(/^https:\/\/accounts.google.com\//);
 });
 
-it.only("Bla bla", async () => {
+it("Bla bla", async () => {
   const id = "65988b48c12389babc91994e";
   const sessionObject = {passport: {user: id}};
   const sessionString = btoa(JSON.stringify(sessionObject));
@@ -42,4 +42,9 @@ it.only("Bla bla", async () => {
   await page.setCookie({name: "session.sig", value: sig});
 
   await page.goto("http://localhost:3000/blogs");
+
+  await page.waitForSelector('a[href="/auth/logout"]');
+  const logoutContent = await page.$eval('a[href="/auth/logout"]', el => el.innerText);
+
+  expect(logoutContent).toEqual("Logout");
 });
