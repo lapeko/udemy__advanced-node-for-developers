@@ -6,7 +6,7 @@ const {destroyAllTestUsers} = require("./factories/user.factory");
 mongoose.Promise = global.Promise;
 
 beforeAll(async () => {
-  mongoose.connect(keys.mongoURI, {
+  await mongoose.connect(keys.mongoURI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   });
