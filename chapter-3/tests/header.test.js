@@ -1,23 +1,31 @@
 const puppeteer = require("puppeteer");
 
-describe("Header", () => {
-  let browser, page;
 
-  beforeEach(async () => {
-    browser = await puppeteer.launch(/*{headless: false}*/);
-    page = (await browser.pages())[0];
-    if (!page) page = await browser.newPage();
-    await page.goto('http://localhost:3000');
-  });
+let browser, page;
 
-  afterEach(async () => {
-    await browser.close();
-  });
+beforeEach(async () => {
+  browser = await puppeteer.launch(/*{headless: false}*/);
+  page = (await browser.pages())[0];
+  if (!page) page = await browser.newPage();
+  await page.goto('http://localhost:3000');
+});
 
-  it("run a browser", async () => {
-    console.log({browser, page});
-    const text = await page.evaluate(() => document.querySelector("a.brand-logo").innerText);
+afterEach(async () => {
+  await browser.close();
+});
 
-    expect(text).toEqual("Blogster");
-  });
+it("should have expected header", async () => {
+  const text = await page.evaluate(() => document.querySelector("a.brand-logo").innerText);
+
+  expect(text).toEqual("Blogster");
+});
+
+it("should visit auth page", async () => {
+  const searchResultSelector = ".right a";
+  await page.waitForSelector(searchResultSelector);
+  await page.click(searchResultSelector);
+
+  const url = await page.url();
+
+  expect(url).toMatch(/^https:\/\/accounts.google.com\//);
 });
