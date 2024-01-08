@@ -30,4 +30,18 @@ describe("Blogs", () => {
     expect(titleError).toEqual("You must provide a value");
     expect(contentError).toEqual("You must provide a value");
   });
+
+  describe("using valid inputs", () => {
+    beforeEach(async () => {
+      await page.type(".title input", "Some title");
+      await page.type(".content input", "Some content");
+      await page.click("button.teal");
+    });
+
+    test("should show expected confirmation window header", async () => {
+      const header = await page.getContentBySelector("h5");
+
+      expect(header).toEqual("Please confirm your entries");
+    });
+  });
 });
