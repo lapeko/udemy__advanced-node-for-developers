@@ -43,5 +43,17 @@ describe("Blogs", () => {
 
       expect(header).toEqual("Please confirm your entries");
     });
+
+    test("should create a new blog", async () => {
+      page.click(".green")
+
+      await page.waitForSelector(".card");
+
+      const title = await page.getContentBySelector(".card-title");
+      const content = await page.getContentBySelector(".card-title+p");
+
+      expect(title).toEqual("Some title");
+      expect(content).toEqual("Some content");
+    });
   });
 });
