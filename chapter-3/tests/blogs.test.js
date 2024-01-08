@@ -57,3 +57,25 @@ describe("Blogs", () => {
     });
   });
 });
+
+describe("User is not logged in", () => {
+  beforeAll(async () => {
+    page = await Page.build({headless: "new"});
+  });
+
+  test("should not be able to create blog posts", async () => {
+    const result = await page.evaluate(() => fetch("/api/blogs", {
+        method: "POST",
+        body: JSON.stringify({title: "My Title", content: "My Content"}),
+      }).then((res) => res.json())
+    );
+
+    expect(result).toEqual({error: "You must log in!"});
+  });
+
+  test("should not be able to get a list of posts", async () => {
+    const result = await page.evaluate(() => fetch("/api/blogs").then((res) => res.json()));
+
+    expect(result).toEqual({error: "You must log in!"});
+  });
+});
