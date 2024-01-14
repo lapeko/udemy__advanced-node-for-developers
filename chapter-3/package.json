@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "jest": {
-    "setupFilesAfterEnv": ["<rootDir>/tests/jest.setup.js"]
+    "setupFilesAfterEnv": [
+      "<rootDir>/tests/jest.setup.js"
+    ]
   },
   "scripts": {
     "start": "node index.js",
@@ -31,6 +33,7 @@
     "passport-google-oauth20": "2.0.0",
     "path-parser": "2.0.2",
     "puppeteer": "^21.7.0",
+    "redis": "^4.6.12",
     "uuid": "3.2.1"
   }
 }

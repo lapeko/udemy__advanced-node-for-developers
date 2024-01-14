@@ -4,7 +4,7 @@ const Page = require("./utils/page");
 let page;
 
 beforeEach(async () => {
-  page = await Page.build({headless: "new"});
+  page = await Page.build();
 });
 
 afterEach(async () => {

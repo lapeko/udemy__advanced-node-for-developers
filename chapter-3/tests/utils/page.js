@@ -2,11 +2,13 @@ const Puppeteer = require("puppeteer");
 const {getNewTestUser} = require("../factories/user.factory");
 const sessionFactory = require("../factories/session.factory");
 
+const pageOptions = {headless: "new"};
+
 class Page {
   static browser;
 
-  static async build(options) {
-    Page.browser = await Puppeteer.launch(options);
+  static async build() {
+    Page.browser = await Puppeteer.launch(pageOptions);
     const page = (await Page.browser.pages()[0]) || await Page.browser.newPage();
     await page.goto("http://localhost:3000");
 

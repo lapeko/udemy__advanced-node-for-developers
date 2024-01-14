@@ -7,7 +7,7 @@ const bodyParser = require('body-parser');
 const keys = require('./config/keys');
 const appRouter = require("./app-router");
 
-const PORT = process.env.PORT || 5001;
+const PORT = process.env.PORT || keys.port || 5001;
 
 mongoose.Promise = global.Promise;
 mongoose.connect(keys.mongoURI, {
@@ -26,7 +26,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(appRouter);
 
-if (process.env.NODE_ENV === "production") {
+if (["production", "ci"].includes(process.env.NODE_ENV)) {
   app.use(express.static('client/build'));
   app.get('*', (req, res) => {
     res.sendFile(path.resolve('client', 'build', 'index.html'));

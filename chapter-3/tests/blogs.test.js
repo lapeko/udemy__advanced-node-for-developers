@@ -4,7 +4,7 @@ let page;
 
 describe("Blogs", () => {
   beforeAll(async () => {
-    page = await Page.build({headless: "new"});
+    page = await Page.build();
   });
 
   beforeEach(async () => {
@@ -60,7 +60,7 @@ describe("Blogs", () => {
 
 describe("User is not logged in", () => {
   beforeAll(async () => {
-    page = await Page.build({headless: "new"});
+    page = await Page.build();
   });
 
   test("should not be able to create blog posts", async () => {
