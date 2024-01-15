@@ -1,9 +1,13 @@
+const dotenv = require("dotenv");
 const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path');
 const cookieSession = require('cookie-session');
-const passport = require('./services/passport');
 const bodyParser = require('body-parser');
+
+dotenv.config();
+
+const passport = require('./services/passport');
 const keys = require('./config/keys');
 const appRouter = require("./app-router");
 
