@@ -13,11 +13,17 @@ export const handleToken = token => async dispatch => {
   dispatch({ type: FETCH_USER, payload: res.data });
 };
 
-export const submitBlog = (values, history) => async dispatch => {
-  const res = await axios.post('/api/blogs', values);
-
-  history.push('/blogs');
-  dispatch({ type: FETCH_BLOG, payload: res.data });
+export const submitBlog = (values, image, history) => async dispatch => {
+  // TODO get pre-signed url if image is not null
+  // TODO send image to AWS
+  await axios.put("presignedUrl", )
+  // TODO send confirmation to BE and go farther
+  // TODO implement BE to send blog image
+  // TODO implement showing an image
+  // const res = await axios.post('/api/blogs', values);
+  //
+  // history.push('/blogs');
+  // dispatch({ type: FETCH_BLOG, payload: res.data });
 };
 
 export const fetchBlogs = () => async dispatch => {

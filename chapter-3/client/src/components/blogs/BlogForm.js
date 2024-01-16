@@ -26,6 +26,10 @@ class BlogForm extends Component {
       <div>
         <form onSubmit={this.props.handleSubmit(this.props.onBlogSubmit)}>
           {this.renderFields()}
+          <div>
+            <input type="file" accept="image/*" onChange={this.props.onFileChange} />
+          </div>
+          <br />
           <Link to="/blogs" className="red btn-flat white-text">
             Cancel
           </Link>

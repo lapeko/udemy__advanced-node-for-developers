@@ -6,9 +6,9 @@ const Blog = require("../models/Blog");
 
 const blogRouter = Router();
 
-blogRouter.use(requireLogin, cache);
+blogRouter.use(requireLogin);
 
-blogRouter.route("/")
+blogRouter.route("/", cache)
   .get(async (req, res) => {
     const blogs = await Blog.find({ _user: req.user.id });
 
