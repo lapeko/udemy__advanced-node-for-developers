@@ -7,6 +7,6 @@ const appRouter = Router();
 
 appRouter.use("/auth", authRouter);
 appRouter.use("/api/blogs", blogRoutes);
-appRouter.use("/upload", uploadRoutes);
+appRouter.use("/api/upload-image", uploadRoutes);
 
 module.exports = appRouter;
