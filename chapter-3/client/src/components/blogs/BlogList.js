@@ -14,6 +14,9 @@ class BlogList extends Component {
       return (
         <div className="card darken-1 horizontal" key={blog._id}>
           <div className="card-stacked">
+            {blog.image && <div className="card-image">
+              <img src={`https://blog-images-jndflksdjf.s3.eu-central-1.amazonaws.com/${blog.image}`} alt=""/>
+            </div>}
             <div className="card-content">
               <span className="card-title">{blog.title}</span>
               <p>{blog.content}</p>

@@ -15,13 +15,15 @@ blogRouter.route("/", cache)
     res.send(blogs);
   })
   .post(async (req, res) => {
-    const { title, content } = req.body;
+    const { title, content, image } = req.body;
 
     const blog = new Blog({
       title,
       content,
       _user: req.user.id
     });
+
+    if (image) blog.image = image;
 
     try {
       await blog.save();

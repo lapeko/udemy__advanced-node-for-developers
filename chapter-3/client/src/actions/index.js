@@ -14,18 +14,11 @@ export const handleToken = token => async dispatch => {
 };
 
 export const submitBlog = (values, image, history) => async dispatch => {
-  // TODO get pre-signed url if image is not null
-  await saveImage(image);
-
-  // TODO send image to AWS
-  // await axios.put("presignedUrl", )
-  // TODO send confirmation to BE and go farther
-  // TODO implement BE to send blog image
-  // TODO implement showing an image
-  // const res = await axios.post('/api/blogs', values);
-  //
-  // history.push('/blogs');
-  // dispatch({ type: FETCH_BLOG, payload: res.data });
+  const key = await saveImage(image);
+  if (key) Object.assign(values, {image: key})
+  const res = await axios.post('/api/blogs', values);
+  history.push('/blogs');
+  dispatch({ type: FETCH_BLOG, payload: res.data });
 };
 
 export const fetchBlogs = () => async dispatch => {
@@ -42,8 +35,7 @@ export const fetchBlog = id => async dispatch => {
 
 const saveImage = async image => {
   if (!image) return;
-  const {data: url} = await axios.get("/api/upload-image");
-  console.log({url})
-  const {data} = await axios.put(url, image);
-  console.log({response: data});
+  const {url, key} = (await axios.get("/api/upload-image")).data;
+  await axios.put(url, image);
+  return key;
 };
